@@ -175,3 +175,6 @@ venv.bak/
 Playbook.retry
 
 # End of https://www.gitignore.io/api/python,intellij
+
+# database
+db.sqlite3
