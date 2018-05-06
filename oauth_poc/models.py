@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class OAuth2Token(models.Model):
@@ -8,6 +9,11 @@ class OAuth2Token(models.Model):
     # oauth 2 expires time
     expires_at = models.IntegerField()
     # ...
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
 
     def to_token(self):
         return dict(

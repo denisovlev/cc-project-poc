@@ -8,7 +8,15 @@
    {% if user and not user.is_anonymous %}
      Hello {{ user.get_full_name|default:user.username }}!
    {% else %}
-     I don’t think we’ve met before.
+     <form action="/oauth/register" method="post">
+        <label for="login">Login: </label>
+        <input id="login" type="text" name="login">
+        <label for="password">Password: </label>
+        <input id="password" type="password" name="password">
+        <label for="email">Email: </label>
+        <input id="email" type="email" name="email">
+        <input type="submit" value="OK">
+    </form>
    {% endif %}
  </p>
  </div>
