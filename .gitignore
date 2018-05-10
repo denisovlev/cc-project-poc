@@ -168,5 +168,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# vagrant
+.vagrant
+
+# ansible
+Playbook.retry
 
 # End of https://www.gitignore.io/api/python,intellij
