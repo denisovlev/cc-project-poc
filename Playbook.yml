@@ -16,11 +16,13 @@
       - libssl-dev
       - libffi-dev
       - python3-pip
+      - postgresql
+      - postgresql-contrib
     environment:
       LC_ALL: C
   - name: install pip packages
     pip:
-      name: "-r ./requirements.txt"
+      name: "-r /vagrant/requirements.txt"
       executable: /usr/bin/pip3
     environment:
       LC_ALL: C
