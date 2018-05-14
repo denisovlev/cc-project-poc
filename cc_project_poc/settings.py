@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'oauth_poc'
+    'oauth_poc',
+    'main',
+    'raco_reader'
 ]
 
 MIDDLEWARE = [

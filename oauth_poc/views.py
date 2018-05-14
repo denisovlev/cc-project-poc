@@ -1,35 +1,12 @@
 import datetime
 import os
 
-from authlib.django.client import OAuth
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse, JsonResponse
 
-from dotenv import load_dotenv, find_dotenv
-
-from oauth_poc.models import OAuth2Token
-
-load_dotenv(find_dotenv())
-
-RACO_CLIENT_ID = os.getenv('RACO_CLIENT_ID')
-RACO_CLIENT_SECRET = os.getenv('RACO_CLIENT_SECRET')
-RACO_AUTH_URL = os.getenv('RACO_AUTH_URL')
-
-oauth = OAuth()
-oauth.register('raco',
-               client_id=RACO_CLIENT_ID,
-               client_secret=RACO_CLIENT_SECRET,
-               request_token_url=None,
-               request_token_params=None,
-               access_token_url='https://api.fib.upc.edu/v2/o/token',
-               access_token_params=None,
-               refresh_token_url=None,
-               authorize_url='https://api.fib.upc.edu/v2/o/authorize',
-               api_base_url='https://api.fib.upc.edu/v2/',
-               client_kwargs={'response_type': 'code', 'scope': 'read', 'approval_prompt': 'force'},
-               )
-
+from main.models import OAuth2Token
+from main.oauth import oauth
 
 def index(request):
     return render_to_response('index.html')
@@ -55,7 +32,7 @@ def authorize(request):
 
 def fetch_resource(request):
     print(request)
-    token = OAuth2Token.objects.first()
+    token = request.user.oauth2token
     # remember to assign user's token to the client
     resp = oauth.raco.get('/v2/jo/avisos/?format=json', token=token.to_token())
     profile = resp.json()
