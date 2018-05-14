@@ -57,6 +57,8 @@ python manage.py runserver --settings=settings.dev
 
 ## Run Celery background jobs ##
 
+In a separate Terminal console, run `redis-server`.
+
 * Development:
 ```bash
 DJANGO_SETTINGS_MODULE = settings.local celery -A raco_reader worker -l info -B
