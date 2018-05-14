@@ -4,8 +4,6 @@ from datetime import timedelta
 from celery import Celery
 from celery.schedules import crontab
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.local')
-
 app = Celery('raco_reader')
 app.config_from_object('raco_reader.settings')
 
