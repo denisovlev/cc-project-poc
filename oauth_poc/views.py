@@ -32,7 +32,7 @@ def authorize(request):
 
 def fetch_resource(request):
     print(request)
-    token = OAuth2Token.objects.first()
+    token = request.user.oauth2token
     # remember to assign user's token to the client
     resp = oauth.raco.get('/v2/jo/avisos/?format=json', token=token.to_token())
     profile = resp.json()

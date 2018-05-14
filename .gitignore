@@ -178,3 +178,7 @@ Playbook.retry
 
 # database
 db.sqlite3
+
+# celery
+celerybeat-schedule
+celerybeat.pid
