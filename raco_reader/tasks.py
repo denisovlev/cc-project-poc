@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 
-from main.models import Post
+from main.models import Post, OAuth2Token
 from raco_reader.celery import app
 from main.oauth import oauth
 
@@ -16,8 +16,9 @@ def store_notifications():
     all_users = User.objects.all()
     for user in all_users:
         try:
+            token = refresh_token(user)
             last_post = user.post_set.order_by("-modification_date")
-            token = user.oauth2token
+
             resp = oauth.raco.get('/v2/jo/avisos/?format=json', token=token.to_token())
             profile = resp.json()
             for note in profile['results']:
@@ -33,4 +34,17 @@ def store_notifications():
         except Exception as inst:
             print(type(inst))
             print(inst.args)
+            if resp: print(resp.content)
+
+
+def refresh_token(user):
+    token = oauth.raco._get_session().refresh_token(url='https://api.fib.upc.edu/v2/o/token',
+                                                    refresh_token=user.oauth2token.refresh_token)
+    model = OAuth2Token(access_token=token['access_token'],
+                        token_type=token['token_type'],
+                        refresh_token=token['refresh_token'],
+                        expires_at=int(token['expires_at']),
+                        user=user)
+    model.save()
+    return model
 
