@@ -18,6 +18,8 @@
       - python3-pip
       - postgresql
       - postgresql-contrib
+      - libpq-dev
+      - python-pip
     environment:
       LC_ALL: C
   - name: install pip packages
@@ -26,3 +28,43 @@
       executable: /usr/bin/pip3
     environment:
       LC_ALL: C
+  - name: install pip packages
+    pip:
+      name: "psycopg2 psycopg2-binary"
+      executable: /usr/bin/pip
+    environment:
+      LC_ALL: C
+- hosts: all
+  become: yes
+  become_user: postgres
+  gather_facts: no
+
+  vars:
+    dbname: racoApp
+    dbuser: ubuntu
+    dbpassword: password
+
+  tasks:
+  - name: ensure database is created
+    postgresql_db: name={{dbname}}
+
+  - name: ensure user has access to database
+    postgresql_user: db={{dbname}} name={{dbuser}} password={{dbpassword}} priv=ALL
+
+  - name: ensure user does not have unnecessary privilege
+    postgresql_user: name={{dbuser}} role_attr_flags=NOSUPERUSER,NOCREATEDB
+
+  - name: ensure no other user can access the database
+    postgresql_privs: db={{dbname}} role=PUBLIC type=database priv=ALL state=absent
+
+- hosts: all
+  become: true
+  gather_facts: no
+
+  tasks:
+  - name: run migration
+    shell: "python3 /vagrant/manage.py migrate --settings=settings.dev"
+  - name: run server
+    shell: "sudo python3 /vagrant/manage.py runserver --settings=settings.dev 0.0.0.0:80 > /dev/null 2>&1 &"
+    async: 60
+    poll: 0
