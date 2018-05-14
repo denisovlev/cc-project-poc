@@ -59,11 +59,11 @@ python manage.py runserver --settings=settings.dev
 
 * Development:
 ```bash
-celery -A raco_reader worker -l info -B
+DJANGO_SETTINGS_MODULE = settings.local celery -A raco_reader worker -l info -B
 ```
 
 * Production:
 ```bash
-celery -A raco_reader worker -l info
-celery -A raco_reader beat -l info
+DJANGO_SETTINGS_MODULE = settings.dev  celery -A raco_reader worker -l info
+DJANGO_SETTINGS_MODULE = settings.dev celery -A raco_reader beat -l info
 ```
