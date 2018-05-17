@@ -175,3 +175,10 @@ venv.bak/
 Playbook.retry
 
 # End of https://www.gitignore.io/api/python,intellij
+
+# database
+db.sqlite3
+
+# celery
+celerybeat-schedule
+celerybeat.pid

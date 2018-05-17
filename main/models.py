@@ -22,3 +22,10 @@ class OAuth2Token(models.Model):
             refresh_token=self.refresh_token,
             expires_at=self.expires_at,
         )
+
+class Post(models.Model):
+    title = models.CharField('title', max_length=200)
+    subject = models.CharField('subject_code', max_length=200)
+    modification_date = models.DateTimeField('modification_date')
+    text = models.TextField('text')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
