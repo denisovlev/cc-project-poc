@@ -9,20 +9,28 @@
   "ami_id": "ami-7c412f13",
   "instance_type": "t2.micro",
   "instances": {
-    "instance-001": {
+    "db": {
       "private_ip_address": "172.31.19.211",
       "elastic_ip" : "",
       "tags": {
-        "Name": "instance-001",
+        "Name": "db",
         "Role": "db-server"
       }
     },
-    "instance-002": {
+    "webapp": {
       "private_ip_address": "172.31.19.212",
       "elastic_ip" : "18.184.210.175",
       "tags": {
-        "Name": "instance-002",
+        "Name": "webapp",
         "Role": "webapp-server"
+      }
+    },
+    "background-job": {
+      "private_ip_address": "172.31.19.213",
+      "elastic_ip" : "",
+      "tags": {
+        "Name": "background-job",
+        "Role": "background-job-server"
       }
     }
   }
