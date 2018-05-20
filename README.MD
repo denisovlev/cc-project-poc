@@ -21,10 +21,6 @@ DBUSERNAME='DBUSERNAME'
 DBPASSWORD='DBPASSWORD'
 DBPORT='DBPORT'
 ```
-* For all environment: create .env file inside settings containing:
-```bash
-```
-
 
 # How to run #
 
