@@ -69,11 +69,11 @@ In a separate Terminal console, run `redis-server`.
 
 * Development:
 ```bash
-DJANGO_SETTINGS_MODULE = settings.local celery -A raco_reader worker -l info -B
+DJANGO_SETTINGS_MODULE=settings.local celery -A raco_reader worker -l info -B
 ```
 
 * Production:
 ```bash
-DJANGO_SETTINGS_MODULE = settings.dev  celery -A raco_reader worker -l info
-DJANGO_SETTINGS_MODULE = settings.dev celery -A raco_reader beat -l info
+DJANGO_SETTINGS_MODULE=settings.dev  celery -A raco_reader worker -l info
+DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info
 ```
