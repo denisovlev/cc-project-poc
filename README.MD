@@ -11,23 +11,31 @@ export AWS_SECURITY_GROUP_NAME='AWS_SECURITY_GROUP_NAME'
 ```
 
 # Python Configuration #
-* For development environment (using postgresql): create .env file inside settings directory with content : 
-```bash
-DBNAME='DBNAME'
-DBUSERNAME='DBUSERNAME'
-DBPASSWORD='DBPASSWORD'
-DBHOST='DBHOST'
-DBPORT='DBPORT'
-```
-* For all environment: create .env file inside settings containing:
+* Create .env file inside root directory with following values (DBHOST will be handled by provisioning): 
 ```bash
 RACO_CLIENT_ID='RACO_CLIENT_ID'
 RACO_CLIENT_SECRET='RACO_CLIENT_SECRET'
 RACO_AUTH_URL='RACO_AUTH_URL'
+DBNAME='DBNAME'
+DBUSERNAME='DBUSERNAME'
+DBPASSWORD='DBPASSWORD'
+DBPORT='DBPORT'
+```
+* For all environment: create .env file inside settings containing:
+```bash
 ```
 
 
 # How to run #
+
+## Vagrant ##
+In order to make sure that instances are created in the right order, we will sequentially bring them up one by one (db first, and the others later).
+It is bundled in script: execute_vagrant.sh.
+```
+./execute_vagrant.sh
+
+```
+
 ## Migration ##
 
 * Local: 
