@@ -22,7 +22,7 @@ def store_notifications():
 
             resp = oauth.raco.get('/v2/jo/avisos/?format=json', token=token.to_token())
             profile = resp.json()
-            for note in profile['results'][0:5]:
+            for note in profile['results']:
                 if (last_post and datetime.strptime(note['data_modificacio'], "%Y-%m-%dT%H:%M:%S") <= last_post[0].modification_date):
                     continue
                 model = Post(title=note['titol'],
