@@ -1,9 +1,5 @@
 import os
 from authlib.django.client import OAuth
-from dotenv import load_dotenv, find_dotenv
-
-
-load_dotenv(find_dotenv())
 
 RACO_CLIENT_ID = os.getenv('RACO_CLIENT_ID')
 RACO_CLIENT_SECRET = os.getenv('RACO_CLIENT_SECRET')

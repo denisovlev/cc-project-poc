@@ -61,6 +61,10 @@ python manage.py runserver --settings=settings.dev
 
 ## Run Celery background jobs ##
 
+### Racó Reader ###
+
+_This background jobs reads the notifications from Racó and stores the new ones._
+
 In a separate Terminal console, run `redis-server`.
 
 * Development:
@@ -72,4 +76,21 @@ DJANGO_SETTINGS_MODULE=settings.local celery -A raco_reader worker -l info -B
 ```bash
 DJANGO_SETTINGS_MODULE=settings.dev  celery -A raco_reader worker -l info
 DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info
+```
+
+### Mailer Job ###
+
+_This background jobs sends an email to the user for each new notification. The content of the email is the notification itself._
+
+In a separate Terminal console, run `redis-server`.
+
+* Development:
+```bash
+DJANGO_SETTINGS_MODULE=settings.local celery -A mailer_job worker -l info -B
+```
+
+* Production:
+```bash
+DJANGO_SETTINGS_MODULE=settings.dev  celery -A mailer_job worker -l info
+DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job beat -l info
 ```

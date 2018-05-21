@@ -29,3 +29,12 @@ class Post(models.Model):
     modification_date = models.DateTimeField('modification_date')
     text = models.TextField('text')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email_sent = models.BooleanField('email_sent', default=False)
+
+class Attachment(models.Model):
+    link = models.CharField('link', max_length=200)
+    size = models.IntegerField('size')
+    name = models.CharField('name', max_length=200)
+    mime = models.CharField('mime', max_length=200)
+    posts = models.ManyToManyField(Post)
+    content = models.BinaryField('content')

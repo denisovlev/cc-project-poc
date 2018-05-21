@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 
 
@@ -45,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth_poc',
     'main',
-    'raco_reader'
+    'raco_reader',
+    'mailer_job'
 ]
 
 MIDDLEWARE = [
@@ -116,3 +120,16 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+
+
+#CELERY background job: settings with namespace CELERY_
+# REDIS related settings
+CELERY_REDIS_HOST = 'localhost'
+CELERY_REDIS_PORT = '6379'
+CELERY_BROKER_URL = 'redis://' + CELERY_REDIS_HOST + ':' + CELERY_REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + CELERY_REDIS_HOST + ':' + CELERY_REDIS_PORT + '/0'
+
+#Set intervals for raco_reader and mailer_job schedules (seconds)
+RACO_READER_INTERVAL = 30
+MAILER_JOB_INTERVAL = 30
