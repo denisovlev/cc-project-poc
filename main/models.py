@@ -29,3 +29,4 @@ class Post(models.Model):
     modification_date = models.DateTimeField('modification_date')
     text = models.TextField('text')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email_sent = models.BooleanField('email_sent', default=False)
