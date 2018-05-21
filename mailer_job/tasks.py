@@ -1,6 +1,7 @@
 from main.models import Post
 from mailer_job.celery import app
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 
 
 @app.task
@@ -19,14 +20,24 @@ def send_emails():
             print(post.title)
             print(post.user.email)
 
-            send_mail(
-                'Racó Notifications: ' + post.subject + ' - ' + post.title,
-                'Published at: ' + str(post.modification_date) + ' Content: ' + post.text,
-                'raconotifications@gmail.com',
-                [post.user.email],
-                fail_silently=False,
-                html_message='Published at: ' + str(post.modification_date) + '<br> ' + post.text
-            )
+
+            subject = 'Racó Notifications: ' + post.subject + ' - ' + post.title
+            from_email, to = 'raconotifications@gmail.com', post.user.email
+            text_content = 'Published at: ' + str(post.modification_date) + ' Content: ' + post.text
+            html_content = 'Published at: ' + str(post.modification_date) + '<br> ' + post.text
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+
+            #iterate through attachments of this post
+            attachments = post.attachment_set.all()
+            for attach in attachments:
+                msg.attach(attach.name, attach.content, attach.mime)
+
+            msg.send()
+
+
+
+
 
             #set email_sent as True in model Post
             post.email_sent = True

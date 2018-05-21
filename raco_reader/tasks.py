@@ -1,7 +1,7 @@
 from datetime import datetime
 import traceback
 from django.contrib.auth.models import User
-from main.models import Post, OAuth2Token
+from main.models import Post, OAuth2Token, Attachment
 from raco_reader.celery import app
 from main.oauth import oauth
 
@@ -22,7 +22,7 @@ def store_notifications():
 
             resp = oauth.raco.get('/v2/jo/avisos/?format=json', token=token.to_token())
             profile = resp.json()
-            for note in profile['results']:
+            for note in profile['results'][0:5]:
                 if (last_post and datetime.strptime(note['data_modificacio'], "%Y-%m-%dT%H:%M:%S") <= last_post[0].modification_date):
                     continue
                 model = Post(title=note['titol'],
@@ -31,8 +31,24 @@ def store_notifications():
                              text=note['text'],
                              user = user)
                 print(model.title)
-
                 model.save()
+                for attach in note['adjunts']:
+                    print('THERE ARE ATTACHMENTS')
+                    #we could add a restriction if mida > 25mb: continue
+                    model_attach = Attachment(link=attach['url'],
+                                              size=attach['mida'],
+                                              name=attach['nom'],
+                                              mime=attach['tipus_mime'])
+
+
+                    #request to download content
+                    content = oauth.raco.get(attach['url'], token=token.to_token())._content
+                    model_attach.content = content
+                    model_attach.save()
+
+                    # create many to many relationship
+                    model_attach.posts.add(model)
+
         except Exception as inst:
             print(type(inst))
             print(inst.args)
