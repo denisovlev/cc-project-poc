@@ -184,3 +184,13 @@
     shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info &"
     async: 60
     poll: 0
+
+  - name: run mailer worker
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job worker -l info &"
+    async: 60
+    poll: 0
+
+  - name: run mailer beat
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job beat -l info &"
+    async: 60
+    poll: 0
