@@ -32,11 +32,15 @@ def store_notifications():
                              user = user)
                 print(model.title)
                 model.save()
+                total_size = 0
                 for attach in note['adjunts']:
                     print('THERE ARE ATTACHMENTS')
                     #we could add a restriction if mida > 25mb: continue
+                    file_size = attach['mida']
+                    if ((total_size + file_size) / 1024.0 / 1024.0) > 25 : continue
+                    total_size += file_size
                     model_attach = Attachment(link=attach['url'],
-                                              size=attach['mida'],
+                                              size=file_size,
                                               name=attach['nom'],
                                               mime=attach['tipus_mime'])
 

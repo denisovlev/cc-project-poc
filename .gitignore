@@ -170,6 +170,7 @@ venv.bak/
 
 # vagrant
 .vagrant
+aws-config-local.json
 
 # ansible
 Playbook.retry

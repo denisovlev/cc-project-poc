@@ -1,3 +1,5 @@
+import traceback
+
 from main.models import Post
 from mailer_job.celery import app
 from django.core.mail import EmailMessage
@@ -30,8 +32,15 @@ def send_emails():
 
             #iterate through attachments of this post
             attachments = post.attachment_set.all()
+
+            total_size = 0
             for attach in attachments:
-                msg.attach(attach.name, attach.content, attach.mime)
+                if (total_size + attach.size) / 1024.0 / 1024.0 > 25 : continue
+                total_size += attach.size
+                content = attach.content
+                if isinstance(content, memoryview):
+                    content = content.tobytes()
+                msg.attach(attach.name, content, attach.mime)
 
             msg.send()
 
@@ -46,3 +55,4 @@ def send_emails():
     except Exception as inst:
         print(type(inst))
         print(inst.args)
+        print(traceback.format_exc())

@@ -16,10 +16,21 @@ export AWS_SECURITY_GROUP_NAME='AWS_SECURITY_GROUP_NAME'
 RACO_CLIENT_ID='RACO_CLIENT_ID'
 RACO_CLIENT_SECRET='RACO_CLIENT_SECRET'
 RACO_AUTH_URL='RACO_AUTH_URL'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='raconotifications@gmail.com'
+EMAIL_HOST_PASSWORD='EMAIL_HOST_PASSWORD'
+AWS_ACCESS_KEY='AWS_ACCESS_KEY'
+AWS_SECRET_KEY='AWS_SECRET_KEY'
+AWS_DEFAULT_REGION='AWS_DEFAULT_REGION'
+AWS_PRIVATE_KEY_PATH='AWS_PRIVATE_KEY_PATH'
+AWS_EC2_KEY_NAME='AWS_EC2_KEY_NAME'
+AWS_SECURITY_GROUP_NAME='AWS_SECURITY_GROUP_NAME'
 DBNAME='DBNAME'
 DBUSERNAME='DBUSERNAME'
 DBPASSWORD='DBPASSWORD'
-DBPORT='DBPORT'
+DBHOST='172.31.19.211'
+DBPORT=5432
 ```
 
 # How to run #
@@ -28,7 +39,7 @@ DBPORT='DBPORT'
 In order to make sure that instances are created in the right order, we will sequentially bring them up one by one (db first, and the others later).
 It is bundled in script: execute_vagrant.sh.
 ```
-./execute_vagrant.sh
+export $(cat .env | xargs) && ./execute_vagrant.sh 
 
 ```
 
