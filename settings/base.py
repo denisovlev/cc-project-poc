@@ -120,6 +120,13 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+# Add these new lines
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 
 #CELERY background job: settings with namespace CELERY_
