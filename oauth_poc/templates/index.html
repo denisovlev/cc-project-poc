@@ -1,22 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block main %}
- <div>
- <h1>Third-party authentication demo</h1>
+    <div class="jumbotron text-center">
+        <div class="logos">
+        <img id="logoupc" src="{% static '/Logo_UPC.gif' %}">
+        <img id="logofib" src="{% static '/Logo_FIB.gif' %}">
+        <span id="titol"><img id="logoraco" src="{% static '/logo_raco.png' %}"></span>
+
+    </div>
+       <h1>Racó Notifications <img id="logomail" src="{% static '/mail.png' %}"></h1>
+        <p></p>
+    <h4>Subscribe to receive Racó notifications by email</h4>
+    </div>
+    <div class="container" style="max-width:800px">
+
+    <div style="text-align:center;">
+
 
  <p>
    {% if user and not user.is_anonymous %}
      Hello {{ user.get_full_name|default:user.username }}!
    {% else %}
-     <form action="/oauth/register" method="post">
-        <label for="login">Login: </label>
-        <input id="login" type="text" name="login">
-        <label for="password">Password: </label>
-        <input id="password" type="password" name="password">
-        <label for="email">Email: </label>
-        <input id="email" type="email" name="email">
-        <input type="submit" value="OK">
-    </form>
+       	<div class="login-form-1">
+		<form id="login-form" class="text-left" action="/oauth/register" method="post"">
+			<div class="login-form-main-message"></div>
+			<div class="main-login-form">
+				<div class="login-group">
+					<div class="form-group">
+						<label for="login" class="sr-only">Username</label>
+						<input type="text" class="form-control" id="login" name="login" placeholder="username">
+					</div>
+					<div class="form-group">
+						<label for="password" class="sr-only">Password</label>
+						<input type="password" class="form-control" id="password" name="password" placeholder="password">
+					</div>
+					<div class="form-group">
+						<label for="email" class="sr-only">Email</label>
+						<input type="email" class="form-control" id="email" name="email" placeholder="email">
+					</div>
+				</div>
+				<button type="submit" class="login-button" value="OK"><i class="fa fa-chevron-right"></i></button>
+			</div>
+		</form>
+	</div>
+
    {% endif %}
  </p>
  </div>
