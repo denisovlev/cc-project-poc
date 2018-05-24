@@ -175,15 +175,56 @@
       block: |
         DBHOST='172.31.19.211'
 
-  - name: run worker
+  - name: run raco reader worker
     shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader worker -l info &"
     async: 60
     poll: 0
 
-  - name: run beat
+  - name: run raco reader beat
     shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info &"
     async: 60
     poll: 0
+
+- hosts: mailer-job
+  become: true
+  gather_facts: no
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+  tasks:
+  - name: install python3 packages
+    apt: "pkg={{ item }} state=latest"
+    with_items:
+      - python3
+      - python3-venv
+      - python3-dev
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - python3-pip
+      - libpq-dev
+      - python-pip
+      - redis-server
+    environment:
+      LC_ALL: C
+  - name: install pip packages
+    pip:
+      name: "-r /vagrant/requirements.txt"
+      executable: /usr/bin/pip3
+    environment:
+      LC_ALL: C
+  - name: install pip packages
+    pip:
+      name: "psycopg2 psycopg2-binary"
+      executable: /usr/bin/pip
+    environment:
+      LC_ALL: C
+
+  - name: add new configuration to env
+    blockinfile:
+      path: /vagrant/.env
+      block: |
+        DBHOST='172.31.19.211'
 
   - name: run mailer worker
     shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job worker -l info &"

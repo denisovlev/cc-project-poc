@@ -19,7 +19,7 @@
     },
     "webapp": {
       "private_ip_address": "172.31.19.212",
-      "elastic_ip" : "18.184.210.175",
+      "elastic_ip" : "52.58.46.215",
       "tags": {
         "Name": "webapp",
         "Role": "webapp-server"
@@ -31,6 +31,14 @@
       "tags": {
         "Name": "background-job",
         "Role": "background-job-server"
+      }
+    },
+    "mailer-job": {
+      "private_ip_address": "172.31.19.214",
+      "elastic_ip" : "",
+      "tags": {
+        "Name": "mailer-job",
+        "Role": "mailer-job-server"
       }
     }
   }
