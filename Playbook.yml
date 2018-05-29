@@ -10,8 +10,6 @@
     - name: 'install python2'
       raw: sudo apt-get -y install python-simplejson
   tasks:
-  - name: 'install python2'
-    raw: sudo apt-get -y install python-simplejson
   - name: install python3 packages
     apt: "pkg={{ item }} state=latest"
     with_items:
@@ -89,7 +87,7 @@
     postgresql_privs: db={{dbname}} role=PUBLIC type=database priv=ALL state=absent
 
   - name: run migration
-    shell: "python3 /vagrant/manage.py migrate --settings=settings.dev"
+    shell: "python3 /vagrant/manage.py migrate --settings=settings.prod"
 
   - name: run redis
     shell: "sudo redis-server &"
@@ -130,7 +128,7 @@
         DBHOST='172.31.19.211'
 
   - name: run server
-    shell: "sudo python3 /vagrant/manage.py runserver --settings=settings.dev 0.0.0.0:80 > /dev/null 2>&1 &"
+    shell: "sudo python3 /vagrant/manage.py runserver --settings=settings.prod 0.0.0.0:80 > /vagrant/log.txt 2>&1 &"
     async: 60
     poll: 0
 
@@ -162,12 +160,6 @@
       executable: /usr/bin/pip3
     environment:
       LC_ALL: C
-  - name: install pip packages
-    pip:
-      name: "psycopg2 psycopg2-binary"
-      executable: /usr/bin/pip
-    environment:
-      LC_ALL: C
 
   - name: add new configuration to env
     blockinfile:
@@ -176,12 +168,12 @@
         DBHOST='172.31.19.211'
 
   - name: run raco reader worker
-    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader worker -l info &"
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.prod celery -A raco_reader worker -l info &"
     async: 60
     poll: 0
 
   - name: run raco reader beat
-    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info &"
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.prod celery -A raco_reader beat -l info &"
     async: 60
     poll: 0
 
@@ -213,12 +205,6 @@
       executable: /usr/bin/pip3
     environment:
       LC_ALL: C
-  - name: install pip packages
-    pip:
-      name: "psycopg2 psycopg2-binary"
-      executable: /usr/bin/pip
-    environment:
-      LC_ALL: C
 
   - name: add new configuration to env
     blockinfile:
@@ -227,11 +213,11 @@
         DBHOST='172.31.19.211'
 
   - name: run mailer worker
-    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job worker -l info &"
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.prod celery -A mailer_job worker -l info &"
     async: 60
     poll: 0
 
   - name: run mailer beat
-    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job beat -l info &"
+    shell: "cd /vagrant; DJANGO_SETTINGS_MODULE=settings.prod celery -A mailer_job beat -l info &"
     async: 60
     poll: 0

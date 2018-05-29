@@ -35,6 +35,10 @@ Vagrant.configure("2") do |config|
         end
     end
 
+
+    config.vm.synced_folder ".", "/vagrant", type: "rsync",
+        rsync__exclude: [".git/", "venv"]
+
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "Playbook.yml"
     end
