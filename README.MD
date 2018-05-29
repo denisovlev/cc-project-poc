@@ -45,17 +45,17 @@ export $(cat .env | xargs) && ./execute_vagrant.sh
 
 ## Migration ##
 
-* Local: 
-```bash
-python manage.py makemigrations oauth_poc --settings=settings.local # if needed
-python manage.py sqlmigrate oauth_poc 0001 --settings=settings.local # if needed
-python manage.py migrate --settings=settings.local
-```
 * Development: 
 ```bash
 python manage.py makemigrations oauth_poc --settings=settings.dev # if needed
 python manage.py sqlmigrate oauth_poc 0001 --settings=settings.dev # if needed
 python manage.py migrate --settings=settings.dev
+```
+* Production: 
+```bash
+python manage.py makemigrations oauth_poc --settings=settings.prod # if needed
+python manage.py sqlmigrate oauth_poc 0001 --settings=settings.prod # if needed
+python manage.py migrate --settings=settings.prod
 
 ```
 
@@ -80,13 +80,13 @@ In a separate Terminal console, run `redis-server`.
 
 * Development:
 ```bash
-DJANGO_SETTINGS_MODULE=settings.local celery -A raco_reader worker -l info -B
+DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader worker -l info -B
 ```
 
 * Production:
 ```bash
-DJANGO_SETTINGS_MODULE=settings.dev  celery -A raco_reader worker -l info
-DJANGO_SETTINGS_MODULE=settings.dev celery -A raco_reader beat -l info
+DJANGO_SETTINGS_MODULE=settings.prod  celery -A raco_reader worker -l info
+DJANGO_SETTINGS_MODULE=settings.prod celery -A raco_reader beat -l info
 ```
 
 ### Mailer Job ###
@@ -97,11 +97,11 @@ In a separate Terminal console, run `redis-server`.
 
 * Development:
 ```bash
-DJANGO_SETTINGS_MODULE=settings.local celery -A mailer_job worker -l info -B
+DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job worker -l info -B
 ```
 
 * Production:
 ```bash
-DJANGO_SETTINGS_MODULE=settings.dev  celery -A mailer_job worker -l info
-DJANGO_SETTINGS_MODULE=settings.dev celery -A mailer_job beat -l info
+DJANGO_SETTINGS_MODULE=settings.prod  celery -A mailer_job worker -l info
+DJANGO_SETTINGS_MODULE=settings.prod celery -A mailer_job beat -l info
 ```
