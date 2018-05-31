@@ -129,13 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
-#CELERY background job: settings with namespace CELERY_
-# REDIS related settings
-CELERY_REDIS_HOST = 'localhost'
-CELERY_REDIS_PORT = '6379'
-CELERY_BROKER_URL = 'redis://' + CELERY_REDIS_HOST + ':' + CELERY_REDIS_PORT + '/0'
-CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + CELERY_REDIS_HOST + ':' + CELERY_REDIS_PORT + '/0'
+
 
 #Set intervals for raco_reader and mailer_job schedules (seconds)
 RACO_READER_INTERVAL = 30

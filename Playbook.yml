@@ -45,6 +45,12 @@
       block: |
         DBHOST='localhost'
 
+  - name: add new configuration to "redis.conf"
+    blockinfile:
+      dest: /etc/redis/redis.conf
+      block: |
+        bind 0.0.0.0
+
   - name: add new configuration to "postgresql.conf"
     become: yes
     become_user: postgres
@@ -61,9 +67,12 @@
       block: |
         host    all             all             0.0.0.0/0                md5
 
-
   - service:
       name: postgresql
+      state: restarted
+
+  - service:
+      name: redis-server
       state: restarted
 
   - name: ensure database is created
@@ -151,7 +160,7 @@
       - python3-pip
       - libpq-dev
       - python-pip
-      - redis-server
+      - redis-tools
     environment:
       LC_ALL: C
   - name: install pip packages
@@ -196,7 +205,7 @@
       - python3-pip
       - libpq-dev
       - python-pip
-      - redis-server
+      - redis-tools
     environment:
       LC_ALL: C
   - name: install pip packages
