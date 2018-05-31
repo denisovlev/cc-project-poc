@@ -31,6 +31,7 @@ DBUSERNAME='DBUSERNAME'
 DBPASSWORD='DBPASSWORD'
 DBHOST='172.31.19.211'
 DBPORT=5432
+CELERY_REDIS_HOST='CELERY_REDIS_HOST'
 ```
 
 # How to run #
@@ -62,12 +63,12 @@ python manage.py migrate --settings=settings.prod
 ## Run server ##
 * Local: 
 ```bash
-python manage.py runserver --settings=settings.local
+python manage.py runserver --settings=settings.dev
 ```
 
 * Development:
 ```bash
-python manage.py runserver --settings=settings.dev
+python manage.py runserver --settings=settings.prod
 ```
 
 ## Run Celery background jobs ##
